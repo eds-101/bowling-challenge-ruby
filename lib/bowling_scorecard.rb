@@ -8,10 +8,8 @@ class Bowling_Scorecard
   end
 
   def record_roll(input)
-    if @frame == 10 && @rolls_in_frame == 3
-      raise "Game is finished!"
-    end
-    
+    raise "Game is finished!" if game_finished?
+
     @rolls_in_frame += 1 
     
     if @rolls_in_frame == 3 && @frame != 10
@@ -21,11 +19,12 @@ class Bowling_Scorecard
       @rolls_in_frame = 1 
     end
 
-    
     @scorecard[@frame] << input
   end
 
- 
+  def game_finished?
+    @frame == 10 && @rolls_in_frame == 3
+  end
 
 
   def frame_score(frame_number)
