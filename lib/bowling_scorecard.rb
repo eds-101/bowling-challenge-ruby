@@ -3,19 +3,40 @@ class Bowling_Scorecard
 
   def initialize
     @frame = 1
-    @rolls = 0
-    @score = 0
+    @rolls_in_frame = 0
+    @scorecard = {1 => []}
   end
 
   def record_roll(input)
-    @rolls += 1 
-    @frame += 1 if @rolls % 2 == 0 
+    @rolls_in_frame += 1 
     
-    @score += input
+    if @rolls_in_frame == 3
+      #record first roll for new new frame
+      @frame += 1 
+      @scorecard[@frame] = []
+      @rolls_in_frame = 1 
+    end
+    
+    @scorecard[@frame] << input
   end
 
+ 
+
+
+  def frame_score(frame_number)
+    ## only available where frames have been completed
+    # raise "Frame not started" unless frame_number <= @frame
+    @scorecard[frame_number].inject(0){| sum, x | sum + x } # sums two scores in the frame
+  end
+  
   def total_score
-    @score
+    sum = 0
+    @scorecard.each do |frame, score|
+      score.each do |value|
+        sum += value # value of hash arrays
+      end
+    end
+    sum
   end
 
 end

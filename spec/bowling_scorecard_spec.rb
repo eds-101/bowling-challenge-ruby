@@ -10,19 +10,24 @@ describe Bowling_Scorecard do
   end
   
   describe 'frames' do
-    it "can update a frame after two rolls" do
+    it "can record a frame and track its score" do
       subject.record_roll(6)
       subject.record_roll(2)
-      expect(subject.total_score).to eq 8
-      expect(subject.frame).to eq 2
+      subject.record_roll(3)
+      subject.record_roll(8)
+      subject.record_roll(1)
+      expect(subject.frame_score(1)).to eq 8
+      expect(subject.frame_score(2)).to eq 11
+      expect(subject.frame_score(3)).to eq 1
     end
-    it "keeps track of scores for each frame" do
-      4.times { subject.record_roll(3) }
-      4.times { subject.record_roll(5) }
-      expect(subject.frame_score(1)).to eq 6
-      expect(subject.frame_score(3)).to eq 10
-    end
-
+    
+    it "takes 3 rolls in the last (10th) frame" do
+      18.times { subject.record_roll(3) }
+      subject.record_roll(2)
+      subject.record_roll(3)
+      subject.record_roll(6)
+      expect(subject.frame_score(10)).to eq 11
+      
   end
 
 end
