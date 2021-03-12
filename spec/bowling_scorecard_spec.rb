@@ -21,12 +21,14 @@ describe Bowling_Scorecard do
       expect(subject.frame_score(3)).to eq 1
     end
     
-    it "takes 3 rolls in the last (10th) frame" do
+    it "takes 3 rolls in the last (10th) frame and ends the game" do
       18.times { subject.record_roll(3) }
       subject.record_roll(2)
       subject.record_roll(3)
       subject.record_roll(6)
       expect(subject.frame_score(10)).to eq 11
+      expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
+    end
       
   end
 
