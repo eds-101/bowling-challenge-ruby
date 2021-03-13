@@ -43,12 +43,26 @@ describe Bowling_Scorecard do
         subject.record_roll(10)
         expect(subject.frame).to eq 4
       end
-      it "adds bonus points for two consecutive rolls" do
+      it "adds bonus points from next two rolls" do
         subject.record_roll(10)
         subject.record_roll(2)
         subject.record_roll(3)
         subject.record_roll(3)
         expect(subject.frame_score(1)).to eq 15
+      end
+    end
+    describe "spares" do
+      it "processes spare and adds bonus points of next roll" do
+        subject.record_roll(3)
+        subject.record_roll(7)
+        subject.record_roll(3)
+        subject.record_roll(3)
+        expect(subject.frame_score(1)).to eq 13
+        subject.record_roll(6)
+        subject.record_roll(4)
+        subject.record_roll(4)
+        expect(subject.frame_score(3)).to eq 14
+        
       end
 
     end

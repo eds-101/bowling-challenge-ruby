@@ -20,8 +20,13 @@ class Bowling_Scorecard
     
     @scorecard[@frame] << input
 
+    if spare?
+      add_to_bonus_queue(@frame, :spare, 1) #update to remove 3rd param, do it by spare/strike with ternary
+      start_new_frame(0)
+    end
+
     #bonus process
-    if @rolls_in_frame == 1 && input == 10
+    if strike?
       add_to_bonus_queue(@frame, :strike, 2)
       start_new_frame(0)
     end
@@ -47,6 +52,15 @@ class Bowling_Scorecard
     @scorecard[@frame] = []
     @rolls_in_frame = rolls 
   end
+
+  def spare?
+    @rolls_in_frame == 2 && frame_score(@frame) == 10
+  end
+  
+  def strike?(input)
+    @rolls_in_frame == 1 && input == 10
+  end
+
 
   def game_finished?
     @frame == 10 && @rolls_in_frame == 3
