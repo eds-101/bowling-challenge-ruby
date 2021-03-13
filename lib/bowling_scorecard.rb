@@ -14,18 +14,20 @@ class Bowling_Scorecard
 
     if @rolls_in_frame == 3 && @frame != 10
       #record first roll for new new frame
-      @frame += 1 
-      @scorecard[@frame] = []
-      @rolls_in_frame = 1 
+      start_new_frame(1)
     end
     
     @scorecard[@frame] << input
-    
+
     if @rolls_in_frame == 1 && input == 10
-      @frame += 1 
-      @scorecard[@frame] = []
-      @rolls_in_frame = 1 
+      start_new_frame(0)
     end
+  end
+  
+  def start_new_frame(rolls)
+    @frame += 1 
+    @scorecard[@frame] = []
+    @rolls_in_frame = rolls 
   end
 
   def game_finished?
