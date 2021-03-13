@@ -11,15 +11,21 @@ class Bowling_Scorecard
     raise "Game is finished!" if game_finished?
 
     @rolls_in_frame += 1 
-    
+
     if @rolls_in_frame == 3 && @frame != 10
       #record first roll for new new frame
       @frame += 1 
       @scorecard[@frame] = []
       @rolls_in_frame = 1 
     end
-
+    
     @scorecard[@frame] << input
+    
+    if @rolls_in_frame == 1 && input == 10
+      @frame += 1 
+      @scorecard[@frame] = []
+      @rolls_in_frame = 1 
+    end
   end
 
   def game_finished?

@@ -29,7 +29,22 @@ describe Bowling_Scorecard do
       expect(subject.frame_score(10)).to eq 11
       expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
     end
-      
+    
+    
+  end
+
+  describe 'bonuses' do
+    describe "strikes" do
+      it "records a strike and updates frame accordingly" do
+        subject.record_roll(10)
+        expect(subject.frame).to eq 2
+        # subject.roll(6)
+        # subject.roll(4)
+        # subject.roll(10)
+      end
+
+    end
+
   end
 
 end
