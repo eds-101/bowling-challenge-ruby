@@ -21,13 +21,22 @@ describe Bowling_Scorecard do
       expect(subject.frame_score(3)).to eq 1
     end
     
-    it "takes 3 rolls in the last (10th) frame and ends the game" do
-      18.times { subject.record_roll(3) }
-      subject.record_roll(2)
-      subject.record_roll(3)
-      subject.record_roll(6)
-      expect(subject.frame_score(10)).to eq 11
-      expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
+    describe '10th frame' do
+      it "ends game if no strike or spare after two rolls" do
+        18.times { subject.record_roll(3) } # first 9 frames
+        subject.record_roll(3)
+        subject.record_roll(2)
+        expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
+        expect(subject.frame_score(10)).to eq 5
+      end
+      # it "provides a 3 roll frame if first roll is a strike" do
+      #   18.times { subject.record_roll(3) } # first 9 frames
+      #   subject.record_roll(10)
+      #   subject.record_roll(3)
+      #   subject.record_roll(6)
+      #   expect(subject.frame_score(10)).to eq 19
+      #   expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
+      # end
     end
     
     
@@ -62,7 +71,6 @@ describe Bowling_Scorecard do
         subject.record_roll(4)
         subject.record_roll(4)
         expect(subject.frame_score(3)).to eq 14
-        
       end
 
     end
