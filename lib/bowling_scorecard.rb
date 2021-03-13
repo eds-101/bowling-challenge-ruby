@@ -15,26 +15,30 @@ class Bowling_Scorecard
     process_bonuses(input)
 
     if @rolls_in_frame == 3 && @frame != 10
-      start_new_frame(1)
+      start_new_frame(1) # acknowledges first roll of new frame
     end
     
     @scorecard[@frame] << input
 
     #bonus process
     if @rolls_in_frame == 1 && input == 10
-      update_bonus_queue(@frame, :strike, 2)
+      add_to_bonus_queue(@frame, :strike, 2)
       start_new_frame(0)
     end
   end
 
   def process_bonuses(bonus_score)
     # filter queue where rolls left > 0
-    # for each bonus queue frame
-      # @scorecard[bonus_queue key] << bonus_score
-      # @bonus_queue[rolls_left] -= 1
+    queue = @bonus_queue.select {|k,v| v[:rolls_left] > 0}
+    # add bonus, reduce rolls left to process
+    queue.each do |frame, values|
+      @scorecard[frame] << bonus_score
+      @bonus_queue[frame][:rolls_left] -= 1
+    end
+
   end
 
-  def update_bonus_queue(frame, scenario, rolls_left)
+  def add_to_bonus_queue(frame, scenario, rolls_left)
     @bonus_queue[frame] = { scenario: scenario, rolls_left: rolls_left }
   end
   

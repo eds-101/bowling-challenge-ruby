@@ -47,6 +47,7 @@ describe Bowling_Scorecard do
         subject.record_roll(10)
         subject.record_roll(2)
         subject.record_roll(3)
+        subject.record_roll(3)
         expect(subject.frame_score(1)).to eq 15
       end
 
