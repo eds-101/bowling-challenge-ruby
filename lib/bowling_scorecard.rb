@@ -37,10 +37,9 @@ class Bowling_Scorecard
       add_to_bonus_queue(@frame, :strike, 0)
     end
     
-    if @frame == 10 && frame_score(10) == 20 && @rolls_in_frame == 2
+    # if @frame == 10 && frame_score(10) == 20 && @rolls_in_frame == 2
+    if @frame == 10 && input == 10
       add_to_bonus_queue(@frame, :strike, 0)
-      @scorecard[10] = [10, 10, 10]
-      # game finished
     end
     
     if spare? && @frame == 10
