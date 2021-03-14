@@ -31,20 +31,14 @@ describe Bowling_Scorecard do
       end
       it "provides a 3 roll frame if first roll is a strike" do
         18.times { subject.record_roll(3) } # first 9 frames
-        puts subject.frame
         subject.record_roll(10)
-        puts subject.frame
         subject.record_roll(3)
-
         subject.record_roll(6)
-        expect(subject.frame_score(10)).to eq 28
+        expect(subject.frame_score(10)).to eq 19
         expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
       end
     end
-    
-    
-  end
-
+  end 
   describe 'bonuses' do
     describe "strikes" do
       it "records a strike and updates frame accordingly" do
@@ -77,7 +71,6 @@ describe Bowling_Scorecard do
       end
 
     end
-
   end
 
 end

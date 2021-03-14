@@ -1,57 +1,57 @@
 class Bowling_Scorecard
-  attr_reader :frame, :scorecard
+  attr_reader :frame, :total_score, :scorecard
 
   def initialize
     @frame = 1
     @rolls_in_frame = 0
     @scorecard = {1 => []}
     @bonus_queue = {}
-    @game_finished = false
-    @frame_ten_strike = false
   end
 
   def record_roll(input)
+    
     if @scorecard[10]
-      raise "Game is finished!" if @scorecard[10].length == 2 unless @bonus_queue[10]
-      raise "Game is finished!" if @rolls_in_frame == 3
+      raise "Game is finished!" if @scorecard[10].length == 3 
     end
-    # @frame == 10 && @rolls_in_frame == 3
-
 
     @rolls_in_frame += 1 
     process_bonuses(input)
     
     start_new_frame(1) if frame_finished? unless @frame == 10
+    # end game if frame finished and 3 rolls in frame 10
 
-    ###
-    # basically if frame 10 has bonus_queue do 1 more roll, otherwise end
-    # manually update spare for frame 10, i.e. 10, 0 would be a spare as well
-    # if frame 10 and 3 rolls, game ends
-    ##
-
-    # set to 1 to acknowledge and process first roll of new frame 
+    @scorecard[@frame] << input
     
-
-      @scorecard[@frame] << input
-
-    # if @frame == 10 && @rolls_in_frame == 2 && frame_score(10) < 10
-    #   @game_finished = true
-    # end
-
-    # if @frame == 10 && @rolls_in_frame == 1 && input == 10
-    #   @frame_ten_strike = true
-    # end
-
     if spare? 
-      add_to_bonus_queue(@frame, :spare, 1) #update to remove 3rd param, do it by spare/strike with ternary
+      add_to_bonus_queue(@frame, :spare, 1) unless @frame == 10 
       start_new_frame(0) unless @frame == 10
     end
-
+    
     #bonus process
     if strike?
-      add_to_bonus_queue(@frame, :strike, 2)
+      add_to_bonus_queue(@frame, :strike, 2) unless @frame == 10
       start_new_frame(0) unless @frame == 10
     end
+    
+    if strike? && @frame == 10
+      add_to_bonus_queue(@frame, :strike, 0)
+    end
+    
+    if @frame == 10 && frame_score(10) == 20 && @rolls_in_frame == 2
+      add_to_bonus_queue(@frame, :strike, 0)
+      @scorecard[10] = [10, 10, 10]
+      # game finished
+    end
+    
+    if spare? && @frame == 10
+      add_to_bonus_queue(@frame, :spare, 0)
+    end
+
+    if @rolls_in_frame == 2 && @frame == 10 && frame_score(10) < 10
+      @scorecard[10] << 0
+      # game finished
+    end
+
   end
 
   def process_bonuses(bonus_score)
