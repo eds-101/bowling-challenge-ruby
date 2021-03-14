@@ -73,4 +73,17 @@ describe Bowling_Scorecard do
     end
   end
 
+  describe 'special sequences' do
+    it 'can acknowledge a perfect game' do
+      11.times { subject.record_roll(10) }
+      output = subject.record_roll(10)
+      expect(output).to eq 'Perfect Game!'
+    end
+    it 'can acknowledge a gutter game' do
+      19.times { subject.record_roll(0) }
+      output = subject.record_roll(0)
+      expect(output).to eq 'Gutter Game!'
+    end
+  end
+
 end

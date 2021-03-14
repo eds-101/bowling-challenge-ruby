@@ -16,9 +16,7 @@ class Bowling_Scorecard
 
     @rolls_in_frame += 1 
     process_bonuses(input)
-    
-    start_new_frame(1) if frame_finished? unless @frame == 10
-    # end game if frame finished and 3 rolls in frame 10
+    start_new_frame(1) if frame_finished?
 
     @scorecard[@frame] << input
     
@@ -27,7 +25,6 @@ class Bowling_Scorecard
       start_new_frame(0) unless @frame == 10
     end
     
-    #bonus process
     if strike?
       add_to_bonus_queue(@frame, :strike, 2) unless @frame == 10
       start_new_frame(0) unless @frame == 10
@@ -35,20 +32,18 @@ class Bowling_Scorecard
     
     if strike? && @frame == 10
       add_to_bonus_queue(@frame, :strike, 0)
-    end
-    
-    # if @frame == 10 && frame_score(10) == 20 && @rolls_in_frame == 2
-    if @frame == 10 && input == 10
-      add_to_bonus_queue(@frame, :strike, 0)
+      @rolls_in_frame = 0 # to allow for another strike
+      return "Perfect Game!" if total_score == 300
     end
     
     if spare? && @frame == 10
       add_to_bonus_queue(@frame, :spare, 0)
+      @rolls_in_frame = 0 # to allow for another strike
     end
 
     if @rolls_in_frame == 2 && @frame == 10 && frame_score(10) < 10
       @scorecard[10] << 0
-      # game finished
+      return "Gutter Game!" if total_score == 0
     end
 
   end
@@ -84,7 +79,7 @@ class Bowling_Scorecard
   end
 
   def frame_finished?
-    @rolls_in_frame == 3 
+    @rolls_in_frame == 3 && @frame != 10
   end
 
   def game_finished?
@@ -93,8 +88,7 @@ class Bowling_Scorecard
 
 
   def frame_score(frame_number)
-    ## only available where frames have been completed
-    # raise "Score for #{frame_number} unavailable" unless @scorecard[frame_number]
+    raise "Score for #{frame_number} unavailable" unless @scorecard[frame_number]
     @scorecard[frame_number].inject(0){| sum, x | sum + x } # sums two scores in the frame
   end
   
@@ -102,7 +96,7 @@ class Bowling_Scorecard
     sum = 0
     @scorecard.each do |frame, score|
       score.each do |value|
-        sum += value # value of hash arrays
+        sum += value # sum of arrays
       end
     end
     sum
