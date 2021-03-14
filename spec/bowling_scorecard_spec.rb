@@ -29,7 +29,7 @@ describe Bowling_Scorecard do
         expect(subject.frame_score(10)).to eq 6
         expect{ subject.record_roll(4) }.to raise_error "Game is finished!"
       end
-      it "provides a 3 roll frame if first roll is a strike" do
+      it "provides a 3 roll frame with two bonus rolls if first roll is a strike" do
         18.times { subject.record_roll(3) } # first 9 frames
         subject.record_roll(10)
         subject.record_roll(3)
@@ -77,11 +77,13 @@ describe Bowling_Scorecard do
     it 'can acknowledge a perfect game' do
       11.times { subject.record_roll(10) }
       output = subject.record_roll(10)
+      expect(subject.total_score).to eq 300
       expect(output).to eq 'Perfect Game!'
     end
     it 'can acknowledge a gutter game' do
       19.times { subject.record_roll(0) }
       output = subject.record_roll(0)
+      expect(subject.total_score).to eq 0
       expect(output).to eq 'Gutter Game!'
     end
   end
