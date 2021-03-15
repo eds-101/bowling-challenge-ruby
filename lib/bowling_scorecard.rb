@@ -101,8 +101,4 @@ class Bowling_Scorecard
     @rolls_in_frame == 2 && @frame == 10 && frame_score(10) < 10
   end
 
-  def game_finished?
-    @game_finished
-  end
-
 end
