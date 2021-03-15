@@ -1,5 +1,5 @@
 class Bowling_Scorecard
-  attr_reader :frame, :total_score, :scorecard
+  attr_reader :frame, :scorecard
 
   def initialize
     @frame = 1
