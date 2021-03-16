@@ -1,6 +1,25 @@
 Bowling Challenge in Ruby
 =================
 
+## EG Readme
+
+My implementation of the bowling challenge takes user inputs for a 10 frame game, calculating a running total including bonuses.
+
+## Installation Instructions
+$ git clone git@github.com:git@github.com:eds-101/bowling-challenge-ruby.git
+$ cd bowling-challenge-ruby
+$ irb -r "./lib/bowling_scorecard.rb"
+$ scorecard = BowlingScorecard.new
+
+## Usage Instructions
+* scorecard.record_roll(num) to record a score for a roll
+* scorecard.total_score to view a total score at any time
+* scorecard.scorecard to view history of frames and rolls
+* scorecard.frame to view frame number
+
+**FEATURES IMPLEMENTED**
+* Gutter game, one frame, multiple frames, spares, strikes, final frame
+
 * Feel free to use google, your notes, books, etc. but work on your own
 * If you refer to the solution of another coach or student, please put a link to that in your README
 * If you have a partial solution, **still check in a partial solution**
